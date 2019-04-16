@@ -12,7 +12,27 @@ class StackImpl<T> implements Stack<T> {
 	@Override
 	public Iterator<T> iterator() {
 		// Iterator implementieren...
-		throw new UnsupportedOperationException();
+		return new Iterator<T>() {
+			Stack<Element> reverse = new StackImpl<>();
+
+			{
+				Element head = top;
+				while(head != null)
+				{
+					reverse.push(head);
+					head = head.next;
+				}
+			}
+			@Override
+			public boolean hasNext() {
+				return reverse.size() > 0;
+			}
+
+			@Override
+			public T next() {
+				return reverse.pop().value;
+			}
+		};
 	}
 
 	private class Element {

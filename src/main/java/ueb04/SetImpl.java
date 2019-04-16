@@ -11,7 +11,33 @@ class SetImpl<T extends Comparable<T>> implements Set<T> {
 	@Override
 	public Iterator<T> iterator() {
 		// Iterator implementieren...
-		throw new UnsupportedOperationException();
+		return new Iterator<T>() {
+			Stack<Element> MyStack = new StackImpl<>();
+
+			{
+				if (root != null) {
+					MyStack.push(root);
+				}
+			}
+
+			@Override
+			public boolean hasNext() {
+				return MyStack.size() > 0;
+			}
+
+			@Override
+			public T next() {
+				Element e = MyStack.pop();
+
+				if(e.left != null)
+					MyStack.push(e.left);
+				if(e.right	!= null)
+					MyStack.push(e.right);
+
+				return e.val;
+			}
+		};
+
 	}
 
 	/**
